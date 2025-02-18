@@ -13,7 +13,7 @@ struct WeatherView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    gradient: Gradient(colors: [Color.cyan.opacity(0.75), Color.teal.opacity(0.75)]),
+                    gradient: Gradient(colors: getWeatherBackground(for: weatherVM.weatherCode)),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -40,16 +40,16 @@ struct WeatherView: View {
                         .font(.title2)
                         .padding()
                 }
-                .foregroundStyle(.white)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            // TODO: Add gear click here
-                        } label: {
-                            Image(systemName: "gear")
-                        }
-                        .tint(.white)
+            }
+            .foregroundStyle(.white)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        // TODO: Add gear click here
+                    } label: {
+                        Image(systemName: "gear")
                     }
+                    .tint(.white)
                 }
             }
         }
@@ -477,6 +477,25 @@ extension WeatherView {
             return "cloud.snow.fill" // Snow (light)
         default:
             return "questionmark.circle.fill" // Unknown code
+        }
+    }
+    
+    func getWeatherBackground(for code: Int) -> [Color] {
+        switch code {
+        case 0...5:
+            return [Color.sky.opacity(0.65), Color.aqua.opacity(0.75), Color.cyan.opacity(0.75)]
+        case 7...19:
+            return [Color.ice.opacity(0.85), Color.sky.opacity(0.75), Color.aluminum.opacity(0.75)]
+        case 20...29:
+            return [Color.tin.opacity(0.65), Color.aluminum.opacity(0.75), Color.iron.opacity(0.75)]
+            
+        case 30...49:
+            return [Color.tin.opacity(0.65), Color.aluminum.opacity(0.75), Color.iron.opacity(0.75)]
+            
+        case 50...99:
+            return [Color.black.opacity(0.75), Color.gray.opacity(0.75)]
+        default:
+            return [Color.cyan.opacity(0.75), Color.teal.opacity(0.75)]
         }
     }
 }
