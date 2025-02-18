@@ -25,23 +25,46 @@ struct WeatherView: View {
                         .scaledToFit()
                         .padding(.horizontal)
                         .symbolRenderingMode(.multicolor)
+                        .foregroundStyle(.white)
                     
                     
                     Text(getWeatherDescription(for: weatherVM.weatherCode))
                         .font(.largeTitle)
+                        .foregroundStyle(.white)
                     
                     Text("\(Int(weatherVM.temperature))°F")
                         .font(.system(size: 150, weight: .thin))
-                        
                         .scaleEffect(0.75)
+                        .foregroundStyle(.white)
                         
                     
                     Text("Wind \(Int( weatherVM.windSpeed))mph - Feels Like \(Int(weatherVM.feelsLike))°F")
                         .font(.title2)
                         .padding()
+                        .foregroundStyle(.white)
+                    
+                    
+                    List(0..<weatherVM.date.count, id: \.self) { index in
+                        HStack (alignment: .top) {
+                            Image(systemName: getWeatherIcon(for: weatherVM.dailyWeatherCode[index]))
+                                
+                            Text("\(weatherVM.date[index])")
+                            
+                            Spacer()
+                            
+                            Text("\(Int(weatherVM.dailyLowTemp[index]))°F / ")
+                            Text("\(Int(weatherVM.dailyHighTemp[index]))°F")
+                                .font(.title)
+                                .bold()
+                            
+                        }
+                        .font(.title2)
+                    }
+                    .listStyle(.plain)
+                    
+                    
                 }
             }
-            .foregroundStyle(.white)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
