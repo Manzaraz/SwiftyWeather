@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WeatherView: View {
+    @State var weatherVM = WeatherViewModel()
     var body: some View {
         NavigationStack {
             ZStack {
@@ -26,13 +27,14 @@ struct WeatherView: View {
                         .symbolRenderingMode(.multicolor)
                     
                     
-                    Text("Wild Weather")
+                    Text("\(weatherVM.weatherCode)")
                         .font(.largeTitle)
                     
-                    Text("42°F")
+                    Text("\(String(format: "%.1f", weatherVM.temperature))°F")
                         .font(.system(size: 150, weight: .thin))
+                        .scaleEffect(0.5)
                     
-                    Text("Wind 10mph - Feels Like 36°F")
+                    Text("Wind \(Int( weatherVM.windSpeed))mph - Feels Like \(Int(weatherVM.feelsLike))°F")
                         .font(.title2)
                         .padding()
                 }
@@ -49,7 +51,9 @@ struct WeatherView: View {
                 }
             }
         }
-        
+        .task {
+            await weatherVM.getData()
+        }
         
     }
 }
