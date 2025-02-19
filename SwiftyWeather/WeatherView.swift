@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WeatherView: View {
     @State var weatherVM = WeatherViewModel()
+    
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -99,7 +101,6 @@ extension WeatherView {
 
         // Convert dayNumber to the weekDay & return that string
         let weekday = Calendar.current.weekdaySymbols[dayNumber-1] // remember array is zero indexed, and we got a dayNumber 1-7
-        print(weekday)
         
         return weekday
     }

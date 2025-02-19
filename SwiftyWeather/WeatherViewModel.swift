@@ -14,6 +14,7 @@ class WeatherViewModel {
         var daily: Daily
     }
     
+    
     struct Current: Codable {
         var temperature_2m: Double
         var apparent_temperature: Double
@@ -21,12 +22,14 @@ class WeatherViewModel {
         var weather_code: Int
     }
     
+    
     struct Daily: Codable {
         var time: [String] = []
         var weather_code: [Int] = []
         var temperature_2m_max: [Double] = []
         var temperature_2m_min: [Double] = []
     }
+    
     
     var temperature = 0.0
     var feelsLike = 0.0
