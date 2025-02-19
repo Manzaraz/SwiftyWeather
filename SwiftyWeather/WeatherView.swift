@@ -48,7 +48,7 @@ struct WeatherView: View {
                         HStack (alignment: .top) {
                             Image(systemName: getWeatherIcon(for: weatherVM.dailyWeatherCode[index]))
                                 
-                            Text("\(weatherVM.date[index])")
+                            Text("\(getWeekDay(value: index))")
                             
                             Spacer()
                             
@@ -89,6 +89,19 @@ struct WeatherView: View {
 
 
 extension WeatherView {
+    func getWeekDay(value: Int) -> String {
+        // Increase date by "value" days
+        let date = Calendar.current.date(byAdding: .day, value: value+1, to: Date.now)!
+//         Find the day number 1=Sunday,..., 7=Saturday
+        let dayNumber = Calendar.current.component(.weekday, from: date)
+
+        // Convert dayNumber to the weekDay & return that string
+        let weekday = Calendar.current.weekdaySymbols[dayNumber-1] // remember array is zero indexed, and we got a dayNumber 1-7
+        print(weekday)
+        
+        return weekday
+    }
+    
     func getWeatherDescription(for code: Int) -> String {
         switch code {
         case 0:
