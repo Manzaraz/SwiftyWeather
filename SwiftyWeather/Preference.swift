@@ -21,7 +21,7 @@ class Preference {
         locationName: String = "",
         latString: String = "",
         longString: String = "",
-        selectedUnit: UnitSystem,
+        selectedUnit: UnitSystem = .imperial,
         degreeUnitShowing: Bool = true
     ) {
         self.locationName = locationName
@@ -33,6 +33,21 @@ class Preference {
 }
 
 extension Preference {
-  
+    static var preview: ModelContainer {
+        let container = try! ModelContainer(for: Preference.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        
+        // Add Mock Data
+        container.mainContext.insert(
+            Preference(
+                locationName: "Dublin, Ireland",
+                latString: "53.33880",
+                longString: "-6.2551",
+                selectedUnit: .metric,
+                degreeUnitShowing: true
+            )
+        )
+        
+        return container
+    }
 }
 
