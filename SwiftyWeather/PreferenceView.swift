@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PreferenceView: View {
     @State private var locationName = ""
@@ -13,6 +14,7 @@ struct PreferenceView: View {
     @State private var longString = ""
     @State private var selectedUnit: UnitSystem = .imperial
     @State private var degreeUnitShowing = true
+    
     var degreeUnit: String {
         if degreeUnitShowing {
             return selectedUnit == .imperial ? "F" : "C"
@@ -21,22 +23,25 @@ struct PreferenceView: View {
         return ""
     }
     
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationStack {
-            VStack () {
-                VStack (alignment: .leading) {
-                    TextField("location", text: $locationName)
-                        .font(.title)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.bottom)
-    
+            VStack (alignment: .leading) {
+                TextField("location", text: $locationName)
+                    .font(.title)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.bottom)
+                
+                Group {
                     Text("Latitude")
                         .bold()
                     
                     TextField("latitude", text: $latString)
                         .textFieldStyle(.roundedBorder)
                         .padding(.bottom)
-                        
+                    
                     Text("Longitud")
                         .bold()
                     
@@ -57,7 +62,9 @@ struct PreferenceView: View {
                             Text(unit.rawValue)
                         }
                     }
-                }.font(.title2)
+                    .padding(.bottom)
+                }
+                .font(.title2)
                 
                 Toggle("Show F/C after temp value:", isOn: $degreeUnitShowing)
                     .font(.system(.title2, weight: .bold))
@@ -67,29 +74,32 @@ struct PreferenceView: View {
                     
                     Text("42°\(degreeUnit)")
                         .font(.system(size: 150, weight: .thin))
-    
+                    
                     Spacer()
                 }
-                                
+                
                 Spacer()
             }
+            .padding()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Save") {
-                        
+                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Cancel") {
+                        // TODO: Add save code here...
                         
+                        dismiss()
                     }
                 }
             }
-            .padding(.horizontal)
         }
     }
 }
 
 #Preview {
     PreferenceView()
+        .modelContainer(Preference.preview)
 }
