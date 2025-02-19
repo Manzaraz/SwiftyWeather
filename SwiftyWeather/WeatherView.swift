@@ -47,6 +47,7 @@ struct WeatherView: View {
                     List(0..<weatherVM.date.count, id: \.self) { index in
                         HStack (alignment: .top) {
                             Image(systemName: getWeatherIcon(for: weatherVM.dailyWeatherCode[index]))
+//                                .symbolRenderingMode(.multicolor)
                                 
                             Text("\(getWeekDay(value: index))")
                             
@@ -56,9 +57,10 @@ struct WeatherView: View {
                             Text("\(Int(weatherVM.dailyHighTemp[index]))°F")
                                 .font(.title)
                                 .bold()
-                            
                         }
                         .font(.title2)
+                        .foregroundStyle(.white)
+                        .listRowBackground(Color.clear)
                     }
                     .listStyle(.plain)
                     
